@@ -1,7 +1,5 @@
 "use client";
 
-import { Authenticator } from "@aws-amplify/ui-react";
-import "@aws-amplify/ui-react/styles.css";
 import "./app.css";
 
 export default function RootLayout({
@@ -11,9 +9,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
-        <Authenticator>{children}</Authenticator>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
