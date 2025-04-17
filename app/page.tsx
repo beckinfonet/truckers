@@ -8,7 +8,7 @@ export default function Home() {
       <h1>Welcome to the Todo App</h1>
       <p>This is a public page that doesn't require authentication.</p>
       <div>
-        <Link href="/authenticated">Go to Todo App (requires login)</Link>
+        <Link href="/auth">Go to Todo App (requires login)</Link>
       </div>
     </main>
   );
