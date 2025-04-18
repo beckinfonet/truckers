@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { RegisteredDevice } from "../types";
-import { DeviceCard } from "../components/DeviceCard";
+import { DeviceCard } from "./DeviceCard";
 import { DeviceRegistrationService } from "../services/DeviceRegistrationService";
 
 const DeviceManagement: React.FC = () => {

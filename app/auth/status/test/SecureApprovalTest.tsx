@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Box, Button, Typography, Alert, Paper } from "@mui/material";
-import { useDeviceRegistration } from "../../../fingerprints/hooks/useDeviceRegistration";
-import { useSecureApproval } from "../../../fingerprints/hooks/useSecureApproval";
-import { DeviceFingerprint } from "../../../fingerprints/types";
+import { useDeviceRegistration } from "../fingerprints/hooks/useDeviceRegistration";
+import { useSecureApproval } from "../fingerprints/hooks/useSecureApproval";
+import { DeviceFingerprint } from "../fingerprints/types";
 
 export const SecureApprovalTest = () => {
   const [deviceInfo, setDeviceInfo] = useState<DeviceFingerprint | null>(null);

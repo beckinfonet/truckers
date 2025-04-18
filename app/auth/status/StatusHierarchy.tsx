@@ -10,7 +10,7 @@ import {
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import { useSecureApproval } from "../../fingerprints/hooks/useSecureApproval";
+import { useSecureApproval } from "./fingerprints/hooks/useSecureApproval";
 
 interface ConfirmationMethod {
   type: "app" | "text_msg" | "email";
