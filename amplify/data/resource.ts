@@ -7,9 +7,43 @@ specifies that any user authenticated via an API key can "create", "read",
 "update", and "delete" any "Todo" records.
 =========================================================================*/
 const schema = a.schema({
-  Todo: a
+  Party: a
     .model({
-      content: a.string(),
+      id: a.string(), // This will be used in the PK as PARTY#<id>
+      email: a.string().required(),
+      type: a.string().required(), // e.g., SHIPPER, CARRIER, etc.
+      profile: a.string(), // Basic identity info
+      createdAt: a.datetime(),
+      updatedAt: a.datetime(),
+    })
+    .authorization((allow) => [allow.publicApiKey()]),
+
+  Load: a
+    .model({
+      id: a.string(), // This will be used in the PK as LOAD#<id>
+      details: a.string().required(), // Main load entry details
+      status: a.string(),
+      createdAt: a.datetime(),
+      updatedAt: a.datetime(),
+    })
+    .authorization((allow) => [allow.publicApiKey()]),
+
+  PartyLoad: a
+    .model({
+      loadId: a.string().required(), // Forms LOAD#<loadId>
+      partyId: a.string().required(), // Forms PARTY#<partyId>
+      partyType: a.string().required(), // Type of involvement
+      createdAt: a.datetime(),
+    })
+    .authorization((allow) => [allow.publicApiKey()]),
+
+  LoadAudit: a
+    .model({
+      loadId: a.string().required(), // Forms LOAD#<loadId>
+      timestamp: a.string().required(), // Forms AUDIT#<timestamp>
+      verificationStep: a.string().required(),
+      details: a.string(),
+      createdAt: a.datetime(),
     })
     .authorization((allow) => [allow.publicApiKey()]),
 });
