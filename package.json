@@ -12,6 +12,7 @@
     "@aws-amplify/ui-react": "^6.5.5",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
+    "@hookform/resolvers": "^5.0.1",
     "@mui/icons-material": "^7.0.2",
     "@mui/material": "^7.0.2",
     "aws-amplify": "^6.6.6",
@@ -20,7 +21,9 @@
     "mongoose": "^8.13.2",
     "next": "14.2.10",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-hook-form": "^7.55.0",
+    "zod": "^3.24.3"
   },
   "devDependencies": {
     "@aws-amplify/backend": "^1.5.1",
