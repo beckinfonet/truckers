@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Card, Typography, Box } from "@mui/material";
 import { Shipper } from "./widgets/Shipper";
 import { BarcodeOnTimer } from "./widgets/BarcodeOnTimer/BarcodeOnTimer";
@@ -11,9 +11,10 @@ import { LiveIndicatorBar } from "./widgets/LiveIndicator/LiveIndicator";
 import { FullInfo } from "./components/FullInfo";
 import { LiveChat } from "./components/LiveChat";
 import { PanicReport } from "./components/PanicReport";
-
 import CustomizedSteppers from "./Stepper";
 import { ExpandedBarcode } from "./widgets/BarcodeOnTimer/ExpandedBarcode";
+import StatusDisplay from "./components/StatusDisplay";
+import StatusDetails from "./components/StatusDetails";
 
 interface FreightCardProps {
   pickupLocation: string;
@@ -63,6 +64,43 @@ export default function FreightCard({
 }: FreightCardProps) {
   const [showFullInfo, setShowFullInfo] = useState(false);
   const [showExpandedBarcode, setShowExpandedBarcode] = useState(false);
+  const [showStatusDetails, setShowStatusDetails] = useState(false);
+  const [currentStatus, setCurrentStatus] = useState({
+    status: "In Transit",
+    timestamp: "2025/04/20 19:40:06",
+    location: {
+      latitude: 34.0522,
+      longitude: -118.2437,
+      city: "Los Angeles",
+      state: "CA",
+    },
+  });
+
+  const handleStatusUpdate = async (status: string, images: File[]) => {
+    try {
+      // Here you would typically:
+      // 1. Upload the images to your storage service
+      // 2. Send the status update and image URLs to your backend
+      // 3. Update the local state with the new status
+
+      // For now, we'll just update the local state
+      setCurrentStatus((prev) => ({
+        ...prev,
+        status: status || prev.status,
+        timestamp: new Date().toISOString().replace("T", " ").split(".")[0],
+      }));
+
+      // Close the status details view after successful update
+      setShowStatusDetails(false);
+
+      // Log the update (remove in production)
+      console.log("Status updated:", { status, images });
+    } catch (error) {
+      console.error("Error updating status:", error);
+      // Here you would typically show an error message to the user
+    }
+  };
+
   return (
     <Card
       sx={{
@@ -92,14 +130,40 @@ export default function FreightCard({
       </Typography>
       <LiveIndicatorBar />
 
-      {/* Status Hierarchy */}
+      {/* Status Section */}
       {price && (
-        <Box>
+        <Box sx={{ mb: 3 }}>
           <StatusHierarchy
             price={price.amount}
             userId={shipper.id}
             userType="shipper"
           />
+          <Box
+            sx={{
+              mt: 2,
+              backgroundColor: "#f1f3f5",
+              borderRadius: "16px",
+              p: 2,
+            }}
+          >
+            <Box onClick={() => setShowStatusDetails(!showStatusDetails)}>
+              <StatusDisplay
+                currentStatus={currentStatus.status}
+                timestamp={currentStatus.timestamp}
+                location={currentStatus.location}
+                onClick={() => setShowStatusDetails(!showStatusDetails)}
+              />
+            </Box>
+            {showStatusDetails && (
+              <StatusDetails
+                status={currentStatus.status}
+                timestamp={currentStatus.timestamp}
+                location={currentStatus.location}
+                onClose={() => setShowStatusDetails(false)}
+                onStatusUpdate={handleStatusUpdate}
+              />
+            )}
+          </Box>
         </Box>
       )}
 
@@ -156,7 +220,6 @@ export default function FreightCard({
         )}
       </Box>
 
-      {/* New components */}
       <Box sx={{ mt: 2, display: "flex", flexDirection: "column", gap: 2 }}>
         <LiveChat />
         <PanicReport />
