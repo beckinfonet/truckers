@@ -17,6 +17,7 @@ const fadeIn = keyframes`
 
 interface StatusDetailsProps {
   status: string;
+  notes?: string;
   timestamp: string;
   location?: {
     latitude: number;
@@ -24,11 +25,12 @@ interface StatusDetailsProps {
   };
   onClose: () => void;
   images?: string[];
-  onStatusUpdate?: (status: string, images: File[]) => void;
+  onStatusUpdate?: (status: string, notes: string, images: File[]) => void;
 }
 
 const StatusDetails: React.FC<StatusDetailsProps> = ({
   status,
+  notes,
   timestamp,
   location,
   onClose,

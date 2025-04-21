@@ -50,6 +50,18 @@ interface FreightCardProps {
   };
 }
 
+interface StatusState {
+  status: string;
+  notes?: string;
+  timestamp: string;
+  location: {
+    latitude: number;
+    longitude: number;
+    city: string;
+    state: string;
+  };
+}
+
 export default function FreightCard({
   pickupLocation,
   pickupTime,
@@ -65,7 +77,7 @@ export default function FreightCard({
   const [showFullInfo, setShowFullInfo] = useState(false);
   const [showExpandedBarcode, setShowExpandedBarcode] = useState(false);
   const [showStatusDetails, setShowStatusDetails] = useState(false);
-  const [currentStatus, setCurrentStatus] = useState({
+  const [currentStatus, setCurrentStatus] = useState<StatusState>({
     status: "In Transit",
     timestamp: "2025/04/20 19:40:06",
     location: {
@@ -76,17 +88,22 @@ export default function FreightCard({
     },
   });
 
-  const handleStatusUpdate = async (status: string, images: File[]) => {
+  const handleStatusUpdate = async (
+    status: string,
+    notes: string,
+    images: File[]
+  ) => {
     try {
       // Here you would typically:
       // 1. Upload the images to your storage service
-      // 2. Send the status update and image URLs to your backend
+      // 2. Send the status update, notes, and image URLs to your backend
       // 3. Update the local state with the new status
 
       // For now, we'll just update the local state
       setCurrentStatus((prev) => ({
         ...prev,
-        status: status || prev.status,
+        status,
+        notes,
         timestamp: new Date().toISOString().replace("T", " ").split(".")[0],
       }));
 
@@ -94,7 +111,7 @@ export default function FreightCard({
       setShowStatusDetails(false);
 
       // Log the update (remove in production)
-      console.log("Status updated:", { status, images });
+      console.log("Status updated:", { status, notes, images });
     } catch (error) {
       console.error("Error updating status:", error);
       // Here you would typically show an error message to the user

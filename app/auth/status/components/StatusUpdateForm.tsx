@@ -1,14 +1,40 @@
 import React, { useRef, useState } from "react";
-import { Box, Typography, IconButton, TextField, Button } from "@mui/material";
+import {
+  Box,
+  Typography,
+  IconButton,
+  TextField,
+  Button,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+} from "@mui/material";
 import { Image as ImageIcon, Plus, Send, X } from "lucide-react";
 
+// Predefined status options
+const STATUS_OPTIONS = [
+  "In Transit",
+  "Loading",
+  "Unloading",
+  "Delayed",
+  "Completed",
+  "On Hold",
+  "At Pickup",
+  "At Delivery",
+] as const;
+
+type StatusOption = (typeof STATUS_OPTIONS)[number];
+
 interface StatusUpdateFormProps {
-  onSubmit: (status: string, images: File[]) => void;
+  onSubmit: (status: string, notes: string, images: File[]) => void;
 }
 
 const StatusUpdateForm: React.FC<StatusUpdateFormProps> = ({ onSubmit }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [status, setStatus] = useState("");
+  const [selectedStatus, setSelectedStatus] =
+    useState<StatusOption>("In Transit");
+  const [notes, setNotes] = useState("");
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [previewImages, setPreviewImages] = useState<string[]>([]);
 
@@ -33,9 +59,9 @@ const StatusUpdateForm: React.FC<StatusUpdateFormProps> = ({ onSubmit }) => {
   };
 
   const handleSubmit = () => {
-    if (status.trim() || selectedFiles.length > 0) {
-      onSubmit(status.trim(), selectedFiles);
-      setStatus("");
+    if (selectedStatus) {
+      onSubmit(selectedStatus, notes.trim(), selectedFiles);
+      setNotes("");
       setSelectedFiles([]);
       // Cleanup preview URLs
       previewImages.forEach((url) => URL.revokeObjectURL(url));
@@ -60,13 +86,39 @@ const StatusUpdateForm: React.FC<StatusUpdateFormProps> = ({ onSubmit }) => {
         Update Status
       </Typography>
 
+      {/* Status Dropdown */}
+      <FormControl fullWidth sx={{ mb: 2 }}>
+        <InputLabel id="status-select-label">Status</InputLabel>
+        <Select
+          labelId="status-select-label"
+          id="status-select"
+          value={selectedStatus}
+          label="Status"
+          onChange={(e) => setSelectedStatus(e.target.value as StatusOption)}
+          sx={{
+            "& .MuiSelect-select": {
+              display: "flex",
+              alignItems: "center",
+              gap: 1,
+            },
+          }}
+        >
+          {STATUS_OPTIONS.map((option) => (
+            <MenuItem key={option} value={option}>
+              {option}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+
+      {/* Notes Text Area */}
       <TextField
         fullWidth
         multiline
         rows={2}
-        placeholder="Enter your status update..."
-        value={status}
-        onChange={(e) => setStatus(e.target.value)}
+        placeholder="Add notes about the status update..."
+        value={notes}
+        onChange={(e) => setNotes(e.target.value)}
         sx={{ mb: 2 }}
       />
 
@@ -191,9 +243,10 @@ const StatusUpdateForm: React.FC<StatusUpdateFormProps> = ({ onSubmit }) => {
       <Button
         variant="contained"
         onClick={handleSubmit}
-        disabled={!status.trim() && selectedFiles.length === 0}
+        disabled={!selectedStatus}
         startIcon={<Send size={16} />}
         sx={{
+          width: "100%",
           mt: 2,
           bgcolor: "#1976d2",
           "&:hover": {
@@ -201,7 +254,7 @@ const StatusUpdateForm: React.FC<StatusUpdateFormProps> = ({ onSubmit }) => {
           },
         }}
       >
-        Update Status!
+        Update Status
       </Button>
     </Box>
   );
