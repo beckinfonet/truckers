@@ -1,16 +1,9 @@
 "use client";
 import React, { useState } from "react";
-import {
-  Box,
-  Container,
-  Paper,
-  Tabs,
-  Tab,
-  Typography,
-  Button,
-} from "@mui/material";
+import { Box, Paper, Tabs, Tab, Typography, Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import ListAltIcon from "@mui/icons-material/ListAlt";
+import { useRouter } from "next/navigation";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -37,9 +30,14 @@ function TabPanel(props: TabPanelProps) {
 
 const BrokerPage: React.FC = () => {
   const [tabValue, setTabValue] = useState(0);
+  const router = useRouter();
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
+  };
+
+  const handleCreateBOL = () => {
+    router.push("/auth/broker/create-bol");
   };
 
   return (
@@ -110,6 +108,7 @@ const BrokerPage: React.FC = () => {
                 color="primary"
                 size="large"
                 startIcon={<AddIcon />}
+                onClick={handleCreateBOL}
                 sx={{
                   textTransform: "uppercase",
                   px: 4,
