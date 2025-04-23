@@ -5,6 +5,8 @@ import { Authenticator } from "@aws-amplify/ui-react";
 import outputs from "@/amplify_outputs.json";
 import "@aws-amplify/ui-react/styles.css";
 import "./app.css";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 
 // Configure Amplify at the root level
 Amplify.configure(outputs);
@@ -17,7 +19,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Authenticator.Provider>{children}</Authenticator.Provider>
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <Authenticator.Provider>{children}</Authenticator.Provider>
+        </LocalizationProvider>
       </body>
     </html>
   );

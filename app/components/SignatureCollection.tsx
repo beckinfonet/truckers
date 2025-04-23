@@ -1,6 +1,5 @@
-import React, { useState, useRef } from "react";
-import { Box, Typography, Button, Paper, Grid } from "@mui/material";
-import type { GridProps } from "@mui/material";
+import React, { useRef, forwardRef, useImperativeHandle } from "react";
+import { Box, Typography, Button, Grid } from "@mui/material";
 import SignaturePad from "react-signature-canvas";
 
 interface SignatureCollectionProps {
@@ -9,11 +8,21 @@ interface SignatureCollectionProps {
     driver: string;
     receiver: string;
   }) => void;
+  showTitle?: boolean;
 }
 
-const SignatureCollection: React.FC<SignatureCollectionProps> = ({
-  onSignaturesComplete,
-}) => {
+export interface SignatureCollectionRef {
+  getSignatures: () => {
+    shipper: string;
+    driver: string;
+    receiver: string;
+  } | null;
+}
+
+const SignatureCollection = forwardRef<
+  SignatureCollectionRef,
+  SignatureCollectionProps
+>(({ onSignaturesComplete, showTitle = true }, ref) => {
   const shipperSignatureRef = useRef<SignaturePad>(null);
   const driverSignatureRef = useRef<SignaturePad>(null);
   const receiverSignatureRef = useRef<SignaturePad>(null);
@@ -24,30 +33,43 @@ const SignatureCollection: React.FC<SignatureCollectionProps> = ({
     }
   };
 
-  const handleSaveSignatures = () => {
+  const getSignatures = () => {
     if (
       shipperSignatureRef.current &&
       driverSignatureRef.current &&
       receiverSignatureRef.current
     ) {
-      const signatures = {
+      return {
         shipper: shipperSignatureRef.current.toDataURL(),
         driver: driverSignatureRef.current.toDataURL(),
         receiver: receiverSignatureRef.current.toDataURL(),
       };
-      onSignaturesComplete?.(signatures);
     }
+    return null;
   };
 
+  useImperativeHandle(ref, () => ({
+    getSignatures,
+  }));
+
   return (
-    <Box sx={{ p: 3 }}>
-      <Typography variant="h6" gutterBottom>
-        Collect Signatures
-      </Typography>
-      <Grid container spacing={3}>
+    <Box>
+      {showTitle && (
+        <Typography variant="h6" gutterBottom sx={{ mb: 3 }}>
+          Collect Signatures
+        </Typography>
+      )}
+      <Grid container spacing={4}>
         {/* Shipper Signature */}
-        <Grid {...({ item: true, xs: 12, md: 4 } as GridProps)}>
-          <Paper elevation={2} sx={{ p: 2 }}>
+        <Grid xs={12} md={4}>
+          <Box
+            sx={{
+              bgcolor: "#f5f5f5",
+              p: 3,
+              borderRadius: 1,
+              mb: { xs: 2, md: 0 },
+            }}
+          >
             <Typography variant="subtitle1" gutterBottom>
               Shipper Signature
             </Typography>
@@ -55,8 +77,9 @@ const SignatureCollection: React.FC<SignatureCollectionProps> = ({
               sx={{
                 border: "1px solid #ccc",
                 borderRadius: 1,
-                height: 200,
-                mb: 1,
+                height: { xs: 150, md: 200 },
+                mb: 2,
+                bgcolor: "#fff",
               }}
             >
               <SignaturePad
@@ -73,12 +96,19 @@ const SignatureCollection: React.FC<SignatureCollectionProps> = ({
             >
               Clear
             </Button>
-          </Paper>
+          </Box>
         </Grid>
 
         {/* Driver Signature */}
-        <Grid {...({ item: true, xs: 12, md: 4 } as GridProps)}>
-          <Paper elevation={2} sx={{ p: 2 }}>
+        <Grid xs={12} md={4}>
+          <Box
+            sx={{
+              bgcolor: "#f5f5f5",
+              p: 3,
+              borderRadius: 1,
+              mb: { xs: 2, md: 0 },
+            }}
+          >
             <Typography variant="subtitle1" gutterBottom>
               Driver Signature
             </Typography>
@@ -86,8 +116,9 @@ const SignatureCollection: React.FC<SignatureCollectionProps> = ({
               sx={{
                 border: "1px solid #ccc",
                 borderRadius: 1,
-                height: 200,
-                mb: 1,
+                height: { xs: 150, md: 200 },
+                mb: 2,
+                bgcolor: "#fff",
               }}
             >
               <SignaturePad
@@ -104,12 +135,12 @@ const SignatureCollection: React.FC<SignatureCollectionProps> = ({
             >
               Clear
             </Button>
-          </Paper>
+          </Box>
         </Grid>
 
         {/* Receiver Signature */}
-        <Grid {...({ item: true, xs: 12, md: 4 } as GridProps)}>
-          <Paper elevation={2} sx={{ p: 2 }}>
+        <Grid xs={12} md={4}>
+          <Box sx={{ bgcolor: "#f5f5f5", p: 3, borderRadius: 1 }}>
             <Typography variant="subtitle1" gutterBottom>
               Receiver Signature
             </Typography>
@@ -117,8 +148,9 @@ const SignatureCollection: React.FC<SignatureCollectionProps> = ({
               sx={{
                 border: "1px solid #ccc",
                 borderRadius: 1,
-                height: 200,
-                mb: 1,
+                height: { xs: 150, md: 200 },
+                mb: 2,
+                bgcolor: "#fff",
               }}
             >
               <SignaturePad
@@ -135,26 +167,13 @@ const SignatureCollection: React.FC<SignatureCollectionProps> = ({
             >
               Clear
             </Button>
-          </Paper>
+          </Box>
         </Grid>
       </Grid>
-
-      <Box sx={{ mt: 3, display: "flex", justifyContent: "center" }}>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleSaveSignatures}
-          disabled={
-            !shipperSignatureRef.current ||
-            !driverSignatureRef.current ||
-            !receiverSignatureRef.current
-          }
-        >
-          Save All Signatures
-        </Button>
-      </Box>
     </Box>
   );
-};
+});
+
+SignatureCollection.displayName = "SignatureCollection";
 
 export default SignatureCollection;

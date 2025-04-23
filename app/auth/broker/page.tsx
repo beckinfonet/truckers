@@ -4,7 +4,7 @@ import { Box, Paper, Tabs, Tab, Typography, Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import { useRouter } from "next/navigation";
-import SignatureCollection from "@/app/components/SignatureCollection";
+import BOLForm from "@/app/components/BOLForm";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -35,10 +35,6 @@ const BrokerPage: React.FC = () => {
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
-  };
-
-  const handleCreateBOL = () => {
-    router.push("/auth/broker/create-bol");
   };
 
   return (
@@ -86,15 +82,13 @@ const BrokerPage: React.FC = () => {
           </Tabs>
         </Box>
 
-        <Box sx={{ flex: 1, height: "100%" }}>
+        <Box sx={{ flex: 1, height: "100%", overflowY: "auto" }}>
           <TabPanel value={tabValue} index={0}>
             <Box
               sx={{
                 height: "100%",
                 display: "flex",
                 flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
                 p: 3,
               }}
             >
@@ -102,29 +96,14 @@ const BrokerPage: React.FC = () => {
                 Create a New Bill of Lading
               </Typography>
               <Typography color="text.secondary" sx={{ mb: 3 }}>
-                Start creating a new Bill of Lading for your shipment
+                Fill out the Bill of Lading form below
               </Typography>
-              <SignatureCollection
-                onSignaturesComplete={(signatures) => {
-                  console.log("Signatures collected:", signatures);
-                  // Here you can handle the signatures, e.g., save them to your backend
+              <BOLForm
+                onSubmit={(data) => {
+                  console.log("BOL Form Data:", data);
+                  // Here you can handle the form data, e.g., save it to your backend
                 }}
               />
-              <Button
-                variant="contained"
-                color="primary"
-                size="large"
-                startIcon={<AddIcon />}
-                onClick={handleCreateBOL}
-                sx={{
-                  textTransform: "uppercase",
-                  px: 4,
-                  bgcolor: "rgb(40, 98, 190)",
-                  mt: 3,
-                }}
-              >
-                Create New BOL
-              </Button>
             </Box>
           </TabPanel>
 
