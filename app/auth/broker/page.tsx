@@ -4,6 +4,7 @@ import { Box, Paper, Tabs, Tab, Typography, Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import { useRouter } from "next/navigation";
+import SignatureCollection from "@/app/components/SignatureCollection";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -103,6 +104,12 @@ const BrokerPage: React.FC = () => {
               <Typography color="text.secondary" sx={{ mb: 3 }}>
                 Start creating a new Bill of Lading for your shipment
               </Typography>
+              <SignatureCollection
+                onSignaturesComplete={(signatures) => {
+                  console.log("Signatures collected:", signatures);
+                  // Here you can handle the signatures, e.g., save them to your backend
+                }}
+              />
               <Button
                 variant="contained"
                 color="primary"
@@ -113,6 +120,7 @@ const BrokerPage: React.FC = () => {
                   textTransform: "uppercase",
                   px: 4,
                   bgcolor: "rgb(40, 98, 190)",
+                  mt: 3,
                 }}
               >
                 Create New BOL
