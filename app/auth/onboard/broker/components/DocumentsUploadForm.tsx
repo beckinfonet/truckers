@@ -21,25 +21,25 @@ import {
 
 const requiredDocs = [
   {
-    id: "brokerAuthority",
+    id: 1,
     name: "Broker Authority",
     description: "MC Authority Letter or Certificate",
     required: true,
   },
   {
-    id: "insuranceCertificate",
+    id: 2,
     name: "Insurance Certificate",
     description: "Proof of Insurance Coverage",
     required: true,
   },
   {
-    id: "bondCertificate",
+    id: 3,
     name: "Bond Certificate",
     description: "Broker Bond or Trust Fund Agreement",
     required: true,
   },
   {
-    id: "w9Form",
+    id: 4,
     name: "W-9 Form",
     description: "Tax Identification Form",
     required: true,
@@ -139,7 +139,7 @@ export default function DocumentsUploadForm({
                     onChange={(e) => {
                       const file = e.target.files?.[0];
                       if (file) {
-                        handleFileUpload(doc.id, file);
+                        handleFileUpload(doc.id.toString(), file);
                       }
                     }}
                   />

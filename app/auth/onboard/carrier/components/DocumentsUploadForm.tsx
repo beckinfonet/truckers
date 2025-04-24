@@ -20,25 +20,25 @@ import {
 
 const requiredDocs = [
   {
-    id: "carrierAuthority",
+    id: 1,
     name: "Carrier Authority",
     description: "MC Authority Letter or Certificate",
     required: true,
   },
   {
-    id: "insuranceCertificate",
+    id: 2,
     name: "Insurance Certificate",
     description: "Proof of Insurance Coverage (minimum $750,000 liability)",
     required: true,
   },
   {
-    id: "w9Form",
+    id: 3,
     name: "W-9 Form",
     description: "Tax Identification Form",
     required: true,
   },
   {
-    id: "safetyRating",
+    id: 4,
     name: "Safety Rating",
     description: "DOT Safety Rating Certificate",
     required: true,
@@ -138,7 +138,7 @@ export default function DocumentsUploadForm({
                     onChange={(e) => {
                       const file = e.target.files?.[0];
                       if (file) {
-                        handleFileUpload(doc.id, file);
+                        handleFileUpload(doc.id.toString(), file);
                       }
                     }}
                   />
