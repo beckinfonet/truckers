@@ -9,7 +9,7 @@ specifies that any user authenticated via an API key can "create", "read",
 const schema = a.schema({
   Party: a
     .model({
-      id: a.string(), // This will be used in the PK as PARTY#<id>
+      id: a.string().required(), // Making ID required
       email: a.string().required(),
       type: a.string().required(), // e.g., SHIPPER, CARRIER, etc.
       profile: a.string(), // Basic identity info
@@ -20,7 +20,7 @@ const schema = a.schema({
 
   Load: a
     .model({
-      id: a.string(), // This will be used in the PK as LOAD#<id>
+      id: a.string().required(), // Making ID required
       details: a.string().required(), // Main load entry details
       status: a.string(),
       createdAt: a.datetime(),
@@ -30,6 +30,7 @@ const schema = a.schema({
 
   PartyLoad: a
     .model({
+      id: a.string().required(), // Adding required ID field
       loadId: a.string().required(), // Forms LOAD#<loadId>
       partyId: a.string().required(), // Forms PARTY#<partyId>
       partyType: a.string().required(), // Type of involvement
@@ -39,6 +40,7 @@ const schema = a.schema({
 
   LoadAudit: a
     .model({
+      id: a.string().required(), // Adding required ID field
       loadId: a.string().required(), // Forms LOAD#<loadId>
       timestamp: a.string().required(), // Forms AUDIT#<timestamp>
       verificationStep: a.string().required(),
