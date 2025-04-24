@@ -1,6 +1,52 @@
-import React, { useRef, forwardRef, useImperativeHandle } from "react";
-import { Box, Typography, Button, Grid } from "@mui/material";
+import React, {
+  useRef,
+  forwardRef,
+  useImperativeHandle,
+  ReactNode,
+} from "react";
+import { Box, Typography, Button } from "@mui/material";
 import SignaturePad from "react-signature-canvas";
+
+// Custom Grid component to work around type issues
+interface GridContainerProps {
+  children: ReactNode;
+  spacing?: number;
+  [key: string]: any;
+}
+
+const GridContainer = ({
+  children,
+  spacing = 0,
+  ...props
+}: GridContainerProps) => (
+  <Box
+    sx={{ display: "flex", flexWrap: "wrap", margin: `-${spacing / 2}px` }}
+    {...props}
+  >
+    {React.Children.map(children, (child) => (
+      <Box sx={{ padding: `${spacing / 2}px` }}>{child}</Box>
+    ))}
+  </Box>
+);
+
+interface GridItemProps {
+  children: ReactNode;
+  xs?: number;
+  md?: number;
+  [key: string]: any;
+}
+
+const GridItem = ({ xs = 12, md = 12, children, ...props }: GridItemProps) => (
+  <Box
+    sx={{
+      width: { xs: `${(xs / 12) * 100}%`, md: `${(md / 12) * 100}%` },
+      flexBasis: { xs: `${(xs / 12) * 100}%`, md: `${(md / 12) * 100}%` },
+    }}
+    {...props}
+  >
+    {children}
+  </Box>
+);
 
 interface SignatureCollectionProps {
   onSignaturesComplete?: (signatures: {
@@ -59,9 +105,9 @@ const SignatureCollection = forwardRef<
           Collect Signatures
         </Typography>
       )}
-      <Grid container spacing={4}>
+      <GridContainer spacing={4}>
         {/* Shipper Signature */}
-        <Grid xs={12} md={4}>
+        <GridItem xs={12} md={4}>
           <Box
             sx={{
               bgcolor: "#f5f5f5",
@@ -97,10 +143,10 @@ const SignatureCollection = forwardRef<
               Clear
             </Button>
           </Box>
-        </Grid>
+        </GridItem>
 
         {/* Driver Signature */}
-        <Grid xs={12} md={4}>
+        <GridItem xs={12} md={4}>
           <Box
             sx={{
               bgcolor: "#f5f5f5",
@@ -136,10 +182,10 @@ const SignatureCollection = forwardRef<
               Clear
             </Button>
           </Box>
-        </Grid>
+        </GridItem>
 
         {/* Receiver Signature */}
-        <Grid xs={12} md={4}>
+        <GridItem xs={12} md={4}>
           <Box sx={{ bgcolor: "#f5f5f5", p: 3, borderRadius: 1 }}>
             <Typography variant="subtitle1" gutterBottom>
               Receiver Signature
@@ -168,8 +214,8 @@ const SignatureCollection = forwardRef<
               Clear
             </Button>
           </Box>
-        </Grid>
-      </Grid>
+        </GridItem>
+      </GridContainer>
     </Box>
   );
 });
