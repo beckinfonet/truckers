@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Box, Container, Typography, Grid, Paper, Button } from "@mui/material";
+import { Box, Container, Typography, Paper, Button } from "@mui/material";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import PeopleIcon from "@mui/icons-material/People";
 import VisibilityIcon from "@mui/icons-material/Visibility";

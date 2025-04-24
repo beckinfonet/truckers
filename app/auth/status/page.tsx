@@ -1,4 +1,5 @@
 "use client";
+import React from "react";
 import { Box } from "@mui/material";
 import FreightCard from "./FreightCard";
 import { useAuthenticator } from "@aws-amplify/ui-react";
