@@ -20,6 +20,7 @@
     "aws-amplify": "^6.6.6",
     "date-fns": "^4.1.0",
     "express": "^5.1.0",
+    "json-schema-to-ts": "^3.1.1",
     "lucide-react": "^0.501.0",
     "mongodb": "^6.15.0",
     "mongoose": "^8.13.2",
@@ -29,6 +30,7 @@
     "react-dropzone": "^14.3.8",
     "react-hook-form": "^7.55.0",
     "react-signature-canvas": "^1.1.0-alpha.2",
+    "ts-algebra": "^2.0.0",
     "zod": "^3.24.3"
   },
   "devDependencies": {
