@@ -4,7 +4,7 @@ import { Box, Paper, Tabs, Tab, Typography, Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import { useRouter } from "next/navigation";
-import BOLForm from "@/app/components/BOLForm";
+// import BOLForm from "@/app/components/BOLForm";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -98,12 +98,12 @@ const BrokerPage: React.FC = () => {
               <Typography color="text.secondary" sx={{ mb: 3 }}>
                 Fill out the Bill of Lading form below
               </Typography>
-              <BOLForm
+              {/* <BOLForm
                 onSubmit={(data) => {
                   console.log("BOL Form Data:", data);
                   // Here you can handle the form data, e.g., save it to your backend
                 }}
-              />
+              /> */}
             </Box>
           </TabPanel>
 
