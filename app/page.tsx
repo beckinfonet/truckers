@@ -110,7 +110,7 @@ export default function LandingPage() {
                   color="secondary"
                   size="large"
                   component={Link}
-                  href="/auth/signup"
+                  href="/signup"
                   sx={{
                     px: 4,
                     py: 1.5,
