@@ -13,11 +13,14 @@ import { useRouter } from "next/navigation";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import BusinessIcon from "@mui/icons-material/Business";
 import StorefrontIcon from "@mui/icons-material/Storefront";
+import PersonIcon from "@mui/icons-material/Person";
 
 export default function SignupPage() {
   const router = useRouter();
 
-  const handleRoleSelect = (role: "shipper" | "broker" | "carrier") => {
+  const handleRoleSelect = (
+    role: "shipper" | "broker" | "carrier" | "driver"
+  ) => {
     // Navigate to the appropriate onboarding page
     if (role) {
       router.push(`/auth/onboard/${role}`);
@@ -46,6 +49,13 @@ export default function SignupPage() {
       description: "I operate trucks and want to find shipping opportunities",
       icon: <LocalShippingIcon sx={{ fontSize: 60, color: "#ed6c02" }} />,
     },
+    {
+      id: "4",
+      role: "driver" as const,
+      title: "Driver",
+      description: "I drive trucks and want to find work opportunities",
+      icon: <PersonIcon sx={{ fontSize: 60, color: "#9c27b0" }} />,
+    },
   ];
 
   return (
@@ -61,7 +71,7 @@ export default function SignupPage() {
 
       <Grid container spacing={4} sx={{ justifyContent: "center" }}>
         {roleCards.map((card) => (
-          <Grid item xs={12} sm={6} md={4} key={card.role} component="div">
+          <Grid item xs={12} sm={6} md={3} key={card.role} component="div">
             <Card
               sx={{
                 height: "100%",
